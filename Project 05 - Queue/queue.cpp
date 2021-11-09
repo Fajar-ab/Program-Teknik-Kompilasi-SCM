@@ -2,29 +2,62 @@
 #include <stdio.h>
 #include <conio.h>
 
-# define MAX 200
+#define MAX 200
 
-struct Antrian {
+struct Antrian{
     int kode[MAX];
-    int masuk;
-    int proses;
-}A;
+    int masuk = -1;
+    int proses = -1;   
+};
 
-void menu();
+Antrian antrian;
+
 void masukAntrian();
+void prosesAntrian();
 void printAntrian();
 
-int main() {
-    menu();
 
-    return 0;
+void masukAntrian() {
+    if(antrian.masuk == -1) {
+        antrian.masuk++;
+        antrian.kode[antrian.masuk] = 1;
+    }else {
+        antrian.masuk++;
+        antrian.kode[antrian.masuk] = antrian.kode[antrian.masuk - 1] + 1;
+    }
+
+    printAntrian();
 }
 
-void menu() {
+void prosesAntrian() {
+    antrian.proses += 1;
+    printAntrian();
+}
 
+void printAntrian() {
+    system("cls");
+    printf("\n<<< Antrian >>>\n\n");
+
+    if(antrian.proses == -1) {
+        for(int i=0; i <= antrian.masuk; i++){
+            printf("A%03d\n", antrian.kode[i]);
+        }
+    }else if(antrian.proses >= 0){
+        for(int i = antrian.proses; i <= antrian.masuk; i++) {
+            if(i == antrian.proses) {
+                printf("A%03d -> proses\n", antrian.kode[i]);
+                // continue;
+            }else {
+                printf("A%03d\n", antrian.kode[i]);
+            }
+        }
+    }
+}
+
+int main() {
     bool a = true;
 
-    while (true) {
+    while (a) {
         
         printf("\n<<< Menu Pilihan >>>\n");
         printf("1. Setting Parameter\n");
@@ -46,37 +79,11 @@ void menu() {
                 masukAntrian();
                 break;
             case '3':
-                A.proses++;
+                prosesAntrian();
                 break;
             case '4': 
                 a = false;
         }
-        system("cls");
-        printAntrian();
-    }
-
-}
-
-void masukAntrian() {
-    
-    if(A.masuk == 0) {
-        A.kode[A.masuk] = 1;
-        A.masuk++;
-    }else {
-        A.kode[A.masuk] = A.kode[A.masuk-1] + 1;
-        A.masuk++;
+        
     }
 }
-
-void printAntrian() {
-    printf("\n<<<< Antian >>>>\n");
-
-    for(int i = A.proses; i < A.masuk; i++) {
-        if(i == A.proses) {
-            printf("\nA%03d > PROSES", A.kode[i]);
-        }
-        printf("\nA%03d", A.kode[i]);
-    }
-    printf("\n\n");
-}
-    
