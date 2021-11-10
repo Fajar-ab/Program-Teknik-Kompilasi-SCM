@@ -84,6 +84,5 @@ int main() {
             case '4': 
                 a = false;
         }
-        
     }
 }
